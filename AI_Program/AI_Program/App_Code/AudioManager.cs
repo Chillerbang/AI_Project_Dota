@@ -13,5 +13,10 @@ public class AudioManager
         //
         // TODO: Add constructor logic here
         //
+
+        void cutAudioFile(double timeStart, double timeEnd)
+        {
+
+        }
     }
 }
