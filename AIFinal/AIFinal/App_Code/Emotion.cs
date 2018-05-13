@@ -8,10 +8,15 @@ using System.Web;
 /// </summary>
 public class Emotion
 {
+    public string emotionDetected { get; set; }
+    public int intensity { get; set; }
+    public int delta { get; set; }
+    public int unixStart { get; set; }
+    public int unixEnd { get; set; }
+
     public Emotion()
     {
-        //
-        // TODO: Add constructor logic here
-        //
+        
     }
+    
 }

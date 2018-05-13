@@ -8,10 +8,24 @@ using System.Web;
 /// </summary>
 public class GameLog
 {
+    public int numberGames;
+    public Emotion[] emot;
+    public Gameinstance[] games;
+
     public GameLog()
     {
         //
         // TODO: Add constructor logic here
         //
+    }
+
+    public void addGame()
+    {
+
+    }
+
+    public bool check()
+    {
+        return false;
     }
 }

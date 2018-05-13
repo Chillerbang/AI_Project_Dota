@@ -48,6 +48,9 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -93,11 +96,10 @@
     <Content Include="GameAnalysis.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\AudioManager.cs" />
+    <Content Include="App_Code\AudioManagerAgent.cs" />
     <Content Include="App_Code\Emotion.cs" />
     <Content Include="App_Code\Gameinstance.cs" />
     <Content Include="App_Code\gameLog.cs" />
-    <Content Include="App_Code\GoalManager.cs" />
     <Content Include="App_Code\graphGenerator.cs" />
     <Content Include="App_Code\metadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -8,6 +8,10 @@ using System.Web;
 /// </summary>
 public class Gameinstance
 {
+    public string gameID;
+    public string recording;
+    public Metadata metaData;
+
     public Gameinstance()
     {
         //

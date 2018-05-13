@@ -8,7 +8,9 @@ using System.Web;
 /// </summary>
 public class GraphGenerator
 {
-    public GraphGenerator()
+    public int[,,] GraphData { get; } // game number, xval of emote, y value
+
+    public GraphGenerator(GameLog gl)
     {
         //
         // TODO: Add constructor logic here
