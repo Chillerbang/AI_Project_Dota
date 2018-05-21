@@ -5,13 +5,14 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Main Data structure for Goal Agent, ONLY game data
+/// Main Data structure for Goal Agent
 /// </summary>
 public class Gameinstance
 {
     public string gameID;
     public string RecordingFilePath;
     public GameEvents metaData;
+    public Emotion emote;
 
     public Gameinstance(string GameId, string RecordingFilePath, GameEvents jsonGameData)
     {
