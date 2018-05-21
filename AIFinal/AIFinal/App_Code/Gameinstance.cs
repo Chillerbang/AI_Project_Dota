@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for Gameinstance
+/// Main Data structure for Goal Agent
 /// </summary>
 public class Gameinstance
 {

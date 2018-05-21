@@ -200,11 +200,15 @@ namespace AIFinal
                                     {
                                         CutBeginXlip = TimeSpan.FromSeconds((double)objMusic.time - 5);
                                         CutEndClip = lenghtAudioTr - (CutBeginXlip + TimeSpan.FromSeconds(5));
+                                        //save batch mp3 subfiles
                                         TrimWavFile(Server.MapPath("~") + "audioFiles/FullFile/TR" + gameID + ".wav", Server.MapPath("~") + "audioFiles/Clips/"+gameID + "-" + counter + ".wav", CutBeginXlip, CutEndClip); 
                                         counter++;
                                     }
                                 }
-                                //save batch mp3 subfiles
+                                //--- Linking emotion to audioFile for agent metadata using IBM whatson                  read all music files 
+
+                                //  
+
                             }
                         }
                         else

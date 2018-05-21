@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for Emotion
+/// EmotionClass for simple descions used by reflexAgent
 /// </summary>
 public class Emotion
 {
@@ -13,7 +13,6 @@ public class Emotion
     public int delta { get; set; }
     public int unixStart { get; set; }
     public int unixEnd { get; set; }
-    public string AudioLocation;
     public string[] ArrayWords;
 
     public Emotion()
