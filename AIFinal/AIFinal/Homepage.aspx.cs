@@ -169,15 +169,12 @@ namespace AIFinal
                                 int durationGame = gi.md.duration;
                                 uploadAudioFile.SaveAs(Server.MapPath("~") + "audioFiles/FullFile/" + gameID + ".mp3");
                                 var inputStream = new FileStream(Server.MapPath("~") + "audioFiles/FullFile/" + gameID + ".mp3", FileMode.Open, FileAccess.Read, FileShare.None);
-
                                 Mp3FileReader read = new Mp3FileReader(inputStream);
                                 WaveFileWriter.CreateWaveFile(Server.MapPath("~") + "audioFiles/FullFile/" + gameID + ".wav", read);
-
                                 //convert mp3 to wave
                                 WaveFileReader wv = new WaveFileReader(Server.MapPath("~") + "audioFiles/FullFile/" + gameID + ".wav");
                                 TimeSpan lenghtAudio = wv.TotalTime;
                                 int audiolength = (int)Math.Round(lenghtAudio.TotalSeconds);
-
                                 // cut begniing 
                                 if (audiolength > durationGame)
                                 {
@@ -185,10 +182,8 @@ namespace AIFinal
                                     TimeSpan tCutStart = TimeSpan.FromSeconds(audiolength - durationGame);
                                     TimeSpan tCutEnd = TimeSpan.FromSeconds(0);
                                     TrimWavFile(Server.MapPath("~") + "audioFiles/FullFile/" + gameID + ".wav", Server.MapPath("~") + "audioFiles/FullFile/TR" + gameID + ".wav", tCutStart, tCutEnd);
-
                                 }
-
-                                //
+                                //saving trunced audio
                                 int counter = 0;
                                 WaveFileReader wvTr = new WaveFileReader(Server.MapPath("~") + "audioFiles/FullFile/TR" + gameID + ".wav");
                                 TimeSpan lenghtAudioTr = wvTr.TotalTime;
@@ -205,19 +200,37 @@ namespace AIFinal
                                         counter++;
                                     }
                                 }
-                                //--- Linking emotion to audioFile for agent metadata using IBM whatson                  read all music files 
+                                //--- Linking emotion to audioFile for agent metadata using IBM whatson read all music files 
+                                FileInfo[] filesinfo = new System.IO.DirectoryInfo(Server.MapPath("~") + "audioFiles/Clips/").GetFiles().Where(f => !(f.FullName.EndsWith(".wav"))).ToArray();
+                                //  Create emotion for each
+                                Emotion[] eMotionsDetected = new Emotion[filesinfo.Length];
+                                int countEmotionIndex = 0;
+                                foreach (FileInfo f in filesinfo)
+                                {
+                                    //Set DataFrom IBM -- stoped working? why
 
-                                //  
-
+                                    //save data
+                                    eMotionsDetected[countEmotionIndex].Mp3ParentName = f.Name;
+                                    eMotionsDetected[countEmotionIndex].emotionDetected = "EDetctedPlace";
+                                    eMotionsDetected[countEmotionIndex].intensity = -99;
+                                    eMotionsDetected[countEmotionIndex].delta = -99;
+                                    eMotionsDetected[countEmotionIndex].ArrayWords = null;
+                                    countEmotionIndex++;
+                                }
+                                string[] EmotionLine = new string[eMotionsDetected.Length];
+                                int countEmotionWrite = 0;
+                                foreach (Emotion wrtieEmotionFile in eMotionsDetected)
+                                {
+                                    EmotionLine[countEmotionWrite] = eMotionsDetected[countEmotionWrite].Mp3ParentName + ";" + eMotionsDetected[countEmotionWrite].emotionDetected + ";" + eMotionsDetected[countEmotionWrite].delta + ";" + eMotionsDetected[countEmotionWrite].ArrayWords + ";";
+                                    countEmotionWrite++;
+                                }
+                                System.IO.File.WriteAllLines(Server.MapPath("~") + "ProcessedGames/" + gameID, EmotionLine);
                             }
-                        }
                         else
                         {
                             test.InnerText += "No WMA audio file";
                         }
                     }
-
-
                 }
                 catch(WebException ex)
                 {
@@ -232,18 +245,10 @@ namespace AIFinal
                     }
                 }
             }
-            
             test.InnerText += "</font>";
             if (baudio && bJson && bIDgame)
             {
                 test.InnerHtml = "<font color=\"greed\"> Agent Fired UP </font>";
-                // write joson as file
-                //start doing operations for program
-
-                //Get teamfights
-
-                //
-
             }
         }
     }
