@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for gameLog
+/// This Stores all games
 /// </summary>
 public class GameLog
 {

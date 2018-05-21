@@ -41,6 +41,7 @@
               </div>
               <asp:Button ID="btnAddGame" Class="btn btn-success btn-block" runat="server" OnClick="btnAddGame_Click" Text="Add new game"  OnClientClick="hideMain()"/>
            <label id="test" runat="server"></label>
+           <label id="lblRedirect" runat="server"></label>
             </div>
           </div>
         </div>

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for graphGenerator
+/// gets data for user end display, hold and formats data; doesnt generate
 /// </summary>
-public class GraphGenerator
+public class DataGenerator
 {
-    public int[,,] GraphData { get; } // game number, xval of emote, y value
+    //
 
-    public GraphGenerator(GameLog gl)
+    public DataGenerator()
     {
         //
         // TODO: Add constructor logic here

@@ -75,6 +75,8 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="css\animatedWait.css" />
+    <Content Include="js\dataTables.bootstrap4.js" />
+    <Content Include="js\jquery.min.js" />
     <Content Include="Site1.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -101,12 +103,13 @@
     <Content Include="GameAnalysis.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Code\AudioManagerAgent.cs" />
     <Compile Include="App_Code\Emotion.cs" />
     <Compile Include="App_Code\Gameinstance.cs" />
     <Compile Include="App_Code\gameLog.cs" />
-    <Compile Include="App_Code\graphGenerator.cs" />
+    <Compile Include="App_Code\DataGenerator.cs" />
     <Compile Include="App_Code\GameEvents.cs" />
+    <Compile Include="App_Code\ReflexAgent.cs" />
+    <Compile Include="App_Code\GoalAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site1.Master.cs">
       <DependentUpon>Site1.Master</DependentUpon>

@@ -87,7 +87,6 @@ namespace AIFinal
                     gameIDTrue = true;
                     var json = new WebClient().DownloadString("https://api.opendota.com/api/matches/" + gameID);
                     strJson = json.ToString();
-                    test.InnerText = json.ToString();
                     var JsoncClass = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
                     GameEvents gi = new GameEvents();
                     string temp = JsoncClass.match_id;
@@ -111,6 +110,7 @@ namespace AIFinal
                         oTemp.type = o.key;
                         gi.o.Add(oTemp);
                     }
+
                     JArray jPlayer = JArray.Parse(JsoncClass.players.ToString()) as JArray;
                     dynamic joP = jPlayer;
                     
@@ -119,6 +119,7 @@ namespace AIFinal
                         GameEvents.Player oPTemp = new GameEvents.Player();
                         if (p.account_id == playerID)
                         {
+
                             playerIdTrue = true;
                             oPTemp.account_id = p.account_id;
                             oPTemp.deaths = p.deaths;
@@ -136,14 +137,17 @@ namespace AIFinal
                             oPTemp.lane_efficiency = p.lane_efficiency;
                             oPTemp.personaname = p.personaname;
                             // per minute data
+
                             JArray goldTime = JArray.Parse(p.gold_t.ToString()) as JArray;
                             JArray lhTime = JArray.Parse(p.lh_t.ToString()) as JArray;
                             JArray denieTime = JArray.Parse(p.dn_t.ToString()) as JArray;
                             //storing data
+
                             oPTemp.gold_t = goldTime.Select(jv => (int)jv).ToArray();
                             oPTemp.lh_t = lhTime.Select(jv => (int)jv).ToArray();
                             oPTemp.dn_t = denieTime.Select(jv => (int)jv).ToArray();
                             gi.p = oPTemp;
+
                         }
                     }
 
@@ -171,10 +175,12 @@ namespace AIFinal
                                 var inputStream = new FileStream(Server.MapPath("~") + "audioFiles/FullFile/" + gameID + ".mp3", FileMode.Open, FileAccess.Read, FileShare.None);
                                 Mp3FileReader read = new Mp3FileReader(inputStream);
                                 WaveFileWriter.CreateWaveFile(Server.MapPath("~") + "audioFiles/FullFile/" + gameID + ".wav", read);
+
                                 //convert mp3 to wave
                                 WaveFileReader wv = new WaveFileReader(Server.MapPath("~") + "audioFiles/FullFile/" + gameID + ".wav");
                                 TimeSpan lenghtAudio = wv.TotalTime;
                                 int audiolength = (int)Math.Round(lenghtAudio.TotalSeconds);
+
                                 // cut begniing 
                                 if (audiolength > durationGame)
                                 {
@@ -183,6 +189,7 @@ namespace AIFinal
                                     TimeSpan tCutEnd = TimeSpan.FromSeconds(0);
                                     TrimWavFile(Server.MapPath("~") + "audioFiles/FullFile/" + gameID + ".wav", Server.MapPath("~") + "audioFiles/FullFile/TR" + gameID + ".wav", tCutStart, tCutEnd);
                                 }
+
                                 //saving trunced audio
                                 int counter = 0;
                                 WaveFileReader wvTr = new WaveFileReader(Server.MapPath("~") + "audioFiles/FullFile/TR" + gameID + ".wav");
@@ -195,19 +202,24 @@ namespace AIFinal
                                     {
                                         CutBeginXlip = TimeSpan.FromSeconds((double)objMusic.time - 5);
                                         CutEndClip = lenghtAudioTr - (CutBeginXlip + TimeSpan.FromSeconds(5));
+
                                         //save batch mp3 subfiles
-                                        TrimWavFile(Server.MapPath("~") + "audioFiles/FullFile/TR" + gameID + ".wav", Server.MapPath("~") + "audioFiles/Clips/"+gameID + "-" + counter + ".wav", CutBeginXlip, CutEndClip); 
+                                        TrimWavFile(Server.MapPath("~") + "audioFiles/FullFile/TR" + gameID + ".wav", Server.MapPath("~") + "audioFiles/Clips/" + gameID + "-" + counter + ".wav", CutBeginXlip, CutEndClip);
                                         counter++;
                                     }
                                 }
+
                                 //--- Linking emotion to audioFile for agent metadata using IBM whatson read all music files 
-                                FileInfo[] filesinfo = new System.IO.DirectoryInfo(Server.MapPath("~") + "audioFiles/Clips/").GetFiles().Where(f => !(f.FullName.EndsWith(".wav"))).ToArray();
+                                FileInfo[] filesinfo = new DirectoryInfo(Server.MapPath("~") + "audioFiles/Clips/").GetFiles().Where(f => (f.FullName.EndsWith(".wav")) && (f.FullName.Contains(gameID))).ToArray();
+
                                 //  Create emotion for each
                                 Emotion[] eMotionsDetected = new Emotion[filesinfo.Length];
                                 int countEmotionIndex = 0;
                                 foreach (FileInfo f in filesinfo)
                                 {
+
                                     //Set DataFrom IBM -- stoped working? why
+                                    eMotionsDetected[countEmotionIndex] = new Emotion();
 
                                     //save data
                                     eMotionsDetected[countEmotionIndex].Mp3ParentName = f.Name;
@@ -222,18 +234,26 @@ namespace AIFinal
                                 foreach (Emotion wrtieEmotionFile in eMotionsDetected)
                                 {
                                     string AllwordSaid = "";
-                                    foreach (string word in eMotionsDetected[countEmotionIndex].ArrayWords)
+                                    if (eMotionsDetected[countEmotionWrite].ArrayWords != null)
                                     {
-                                        AllwordSaid += word + "*";
+                                        foreach (string word in eMotionsDetected[countEmotionWrite].ArrayWords)
+                                        {
+                                            AllwordSaid += word + "*";
+                                        }
                                     }
+                                    
                                     EmotionLine[countEmotionWrite] = eMotionsDetected[countEmotionWrite].Mp3ParentName + ";" + eMotionsDetected[countEmotionWrite].emotionDetected + ";" + eMotionsDetected[countEmotionWrite].intensity + ";" + AllwordSaid + ";";
                                     countEmotionWrite++;
                                 }
-                                File.WriteAllLines(Server.MapPath("~") + "ProcessedGames/" + gameID + ".emote", EmotionLine);
+                                test.InnerHtml += "<font color=\"green\"> Data Recorded successfully";
+                                lblRedirect.InnerHtml = "<a href =\"GameAnalysis.aspx\">See Results<a>";
+                                //File.WriteAllLines(Server.MapPath("~") + "ProcessedGames/" + gameID + ".emote", EmotionLine);
+                                ReflexAgent reflex = new ReflexAgent();
                             }
-                        else
-                        {
-                            test.InnerText += "No WMA audio file";
+                            else
+                            {
+                                test.InnerHtml += "No WMA audio file";
+                            }
                         }
                     }
                 }
@@ -250,11 +270,8 @@ namespace AIFinal
                     }
                 }
             }
-            test.InnerText += "</font>";
-            if (baudio && bJson && bIDgame)
-            {
-                test.InnerHtml = "<font color=\"greed\"> Agent Fired UP </font>";
-            }
+            test.InnerHtml += "</font>";
+            
         }
     }
 }
