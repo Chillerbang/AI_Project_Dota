@@ -17,7 +17,7 @@
               </div>
             
               <div class="form-group">
-                <label for="UploadAudioFile">WMA audio file</label><br />
+                <label for="UploadAudioFile">MP3 audio file</label><br />
                <!-- <input class="form-control" id="AudioFile" type="" aria-describedby="upload audio" placeholder="Upload audio file"> -->
                 <div class="row">
                     <div class="col-12">

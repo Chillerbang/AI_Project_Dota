@@ -13,6 +13,8 @@ public class Emotion
     public int delta { get; set; }
     public int unixStart { get; set; }
     public int unixEnd { get; set; }
+    public string AudioLocation;
+    public string[] ArrayWords;
 
     public Emotion()
     {

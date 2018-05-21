@@ -130,7 +130,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="audioFiles\" />
+    <Folder Include="audioFiles\Clips\" />
+    <Folder Include="audioFiles\FullFile\" />
     <Folder Include="JsonData\" />
     <Folder Include="ProcessedGames\" />
   </ItemGroup>

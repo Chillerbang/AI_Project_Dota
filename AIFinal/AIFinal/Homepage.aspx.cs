@@ -58,7 +58,12 @@ namespace AIFinal
 
         // ________________________________ Not my Code ________________________________ //
 
-        protected void Page_Load(object sender, EventArgs e)
+        private static void SaveWaveFile(WaveFileReader reader, string outPath)
+        {
+
+        }
+
+            protected void Page_Load(object sender, EventArgs e)
         {
             test.InnerHtml += "<font color=\"red\">";
         }
@@ -68,7 +73,8 @@ namespace AIFinal
             bool baudio = false;
             bool bJson = false;
             bool bIDgame = false;
-            int playerID = 101680545;
+            bool bplayerID = false;
+            int playerID = 96166915;
             string strJson = "";
             bool gameIDTrue = false;
             bool playerIdTrue = false;
@@ -138,8 +144,63 @@ namespace AIFinal
                             gi.p = oPTemp;
                         }
                     }
-                    
-                }catch(WebException ex)
+
+                    // write Json
+                    string gameIDWrite = GameIDInput.Value;
+                    string JsonPath = HttpContext.Current.Server.MapPath("/JsonData");
+                    File.WriteAllText(JsonPath + '\\' + gameIDWrite + ".json", strJson);
+                    bJson = true;
+
+                    // trimming that sweet audio 
+                    // if the game data is real then we can prep the audio
+                    if (gameIDTrue && playerIdTrue)
+                    {
+                        if (uploadAudioFile.HasFile)
+                        {
+                            string[] token = uploadAudioFile.FileName.Split('.');
+                            string Extension = token[token.Length - 1];
+                            if (Extension == "mp3")
+                            {
+                                baudio = true;
+
+                                //getting mp3 to match game time
+                                int durationGame = gi.md.duration;
+                                uploadAudioFile.SaveAs(Server.MapPath("~") + "audioFiles/FullFile/" + gameID + ".mp3");
+                                var inputStream = new FileStream(Server.MapPath("~") + "audioFiles/FullFile/" + gameID + ".mp3", FileMode.Open, FileAccess.Read, FileShare.None);
+
+                                Mp3FileReader read = new Mp3FileReader(inputStream);
+                                WaveFileWriter.CreateWaveFile(Server.MapPath("~") + "audioFiles/FullFile/" + gameID + ".wav", read);
+
+                                //convert mp3 to wave
+                                WaveFileReader wv = new WaveFileReader(Server.MapPath("~") + "audioFiles/FullFile/" + gameID + ".wav");
+                                TimeSpan lenghtAudio = wv.TotalTime;
+                                int audiolength = (int)Math.Round(lenghtAudio.TotalSeconds);
+
+                                // cut begniing 
+
+                                foreach (GameEvents.objectives objMusic in gi.o)
+                                {
+                                    
+                                    //public static void TrimWavFile(string inPath, string outPath, TimeSpan cutFromStart, TimeSpan cutFromEnd)
+                                    //TrimWavFile(Server.MapPath("~") + "audioFiles/FullFile/" + gameID + ".wma", Server.MapPath("~") + "audioFiles/Clips/" + gameID + "/" + objMusic.time + ".wma", objMusic.time + , );
+
+                                    // cut 5 second clip before and after start team engagement
+
+
+
+                                }
+                                //save batch mp3 subfiles
+                            }
+                        }
+                        else
+                        {
+                            test.InnerText += "No WMA audio file";
+                        }
+                    }
+
+
+                }
+                catch(WebException ex)
                 {
                     if (gameIDTrue == false)
                     test.InnerHtml += "ERROR. invalid game ID";
@@ -152,35 +213,10 @@ namespace AIFinal
                     }
                 }
             }
-            // if the game data is real then we can prep the audio
-            if (gameIDTrue && playerIdTrue)
-            {
-                if (uploadAudioFile.HasFile)
-                {
-                    string[] token = uploadAudioFile.FileName.Split('.');
-                    string Extension = token[token.Length - 1];
-                    if (Extension == "wma")
-                    {
-                        baudio = true;
-                        // perform processing for MP3
-
-                        //save batch mp3 subfiles
-                    }
-                }
-                else
-                {
-                    test.InnerText += "No audiio file";
-                }
-            }
+            
             test.InnerText += "</font>";
             if (baudio && bJson && bIDgame)
             {
-                // write Json
-                string gameIDWrite = GameIDInput.Value;
-                string JsonPath = HttpContext.Current.Server.MapPath("/JsonData");
-                File.WriteAllText(JsonPath + '\\' + gameIDWrite + ".json", strJson);
-                //write audio parts
-                uploadAudioFile.SaveAs(Server.MapPath("~") + "audioFiles\\" + bIDgame);
                 test.InnerHtml = "<font color=\"greed\"> Agent Fired UP </font>";
                 // write joson as file
                 //start doing operations for program
