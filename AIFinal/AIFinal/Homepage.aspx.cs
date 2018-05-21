@@ -102,9 +102,10 @@ namespace AIFinal
                     gi.md.radiant_score = JsoncClass.radiant_score;
                     JArray jObj = JArray.Parse(JsoncClass.objectives.ToString()) as JArray;
                     dynamic oj = jObj;
-                    GameEvents.objectives oTemp = new GameEvents.objectives();
-                    foreach (dynamic o in oj)
+                    
+                    foreach (var o in oj)
                     {
+                        GameEvents.objectives oTemp = new GameEvents.objectives();
                         oTemp.time = o.time;
                         oTemp.who = o.type;
                         oTemp.type = o.key;
@@ -112,9 +113,10 @@ namespace AIFinal
                     }
                     JArray jPlayer = JArray.Parse(JsoncClass.players.ToString()) as JArray;
                     dynamic joP = jPlayer;
-                    GameEvents.Player oPTemp = new GameEvents.Player();
-                    foreach (dynamic p in joP)
+                    
+                    foreach (var p in joP)
                     {
+                        GameEvents.Player oPTemp = new GameEvents.Player();
                         if (p.account_id == playerID)
                         {
                             playerIdTrue = true;
@@ -177,17 +179,30 @@ namespace AIFinal
                                 int audiolength = (int)Math.Round(lenghtAudio.TotalSeconds);
 
                                 // cut begniing 
+                                if (audiolength > durationGame)
+                                {
+                                    int CutStart = audiolength - durationGame;
+                                    TimeSpan tCutStart = TimeSpan.FromSeconds(audiolength - durationGame);
+                                    TimeSpan tCutEnd = TimeSpan.FromSeconds(0);
+                                    TrimWavFile(Server.MapPath("~") + "audioFiles/FullFile/" + gameID + ".wav", Server.MapPath("~") + "audioFiles/FullFile/TR" + gameID + ".wav", tCutStart, tCutEnd);
 
+                                }
+
+                                //
+                                int counter = 0;
+                                WaveFileReader wvTr = new WaveFileReader(Server.MapPath("~") + "audioFiles/FullFile/TR" + gameID + ".wav");
+                                TimeSpan lenghtAudioTr = wvTr.TotalTime;
+                                TimeSpan CutBeginXlip;
+                                TimeSpan CutEndClip;
                                 foreach (GameEvents.objectives objMusic in gi.o)
                                 {
-                                    
-                                    //public static void TrimWavFile(string inPath, string outPath, TimeSpan cutFromStart, TimeSpan cutFromEnd)
-                                    //TrimWavFile(Server.MapPath("~") + "audioFiles/FullFile/" + gameID + ".wma", Server.MapPath("~") + "audioFiles/Clips/" + gameID + "/" + objMusic.time + ".wma", objMusic.time + , );
-
-                                    // cut 5 second clip before and after start team engagement
-
-
-
+                                    if (objMusic.time > 5)
+                                    {
+                                        CutBeginXlip = TimeSpan.FromSeconds((double)objMusic.time - 5);
+                                        CutEndClip = lenghtAudioTr - (CutBeginXlip + TimeSpan.FromSeconds(5));
+                                        TrimWavFile(Server.MapPath("~") + "audioFiles/FullFile/TR" + gameID + ".wav", Server.MapPath("~") + "audioFiles/Clips/"+gameID + "-" + counter + ".wav", CutBeginXlip, CutEndClip); 
+                                        counter++;
+                                    }
                                 }
                                 //save batch mp3 subfiles
                             }

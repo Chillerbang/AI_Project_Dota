@@ -28,29 +28,6 @@
                     </div>--%>
                 </div>
               </div>
-            <div class="form-group">
-                <label for="uploadJSON">Add Json</label><br />
-               <!-- <input class="form-control" id="AudioFile" type="" aria-describedby="upload audio" placeholder="Upload audio file"> -->
-                <div class="row">
-                    <div class="col-12">
-                        <asp:FileUpload Class="form-control" ID="uploadJSON" runat="server" />
-                    </div>
-                    <%--<div class="col-6">
-                        <asp:Button ID="btnUploadJson" Class="btn btn-primary btn-block" runat="server" Text="Add Json" />
-                    </div>--%>
-                </div>
-              </div>
-                <div class="form-group">
-                <label for="audioDate">Data and Time of recording</label>
-                    <div class="row">
-                        <div class="col-6">
-                            <input class="form-control" id="audioDate" type="date" aria-describedby="Date of audio">
-                        </div>
-                        <div class="col-6">
-                            <input class="form-control" id="audioTime" type="time" aria-describedby="time of audio">
-                        </div>
-                    </div>
-                </div>
               </div>
               <asp:Button ID="btnAddGame" Class="btn btn-success btn-block" runat="server" OnClick="btnAddGame_Click" Text="Add new game" />
            <label id="test" runat="server"></label>
