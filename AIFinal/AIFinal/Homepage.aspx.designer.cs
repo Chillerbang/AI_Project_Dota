@@ -13,22 +13,22 @@ namespace AIFinal {
     public partial class WebForm1 {
         
         /// <summary>
-        /// UploadAudioFile control.
+        /// GameIDInput control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload UploadAudioFile;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText GameIDInput;
         
         /// <summary>
-        /// btnuploadRecording control.
+        /// uploadAudioFile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnuploadRecording;
+        protected global::System.Web.UI.WebControls.FileUpload uploadAudioFile;
         
         /// <summary>
         /// uploadJSON control.
@@ -40,15 +40,6 @@ namespace AIFinal {
         protected global::System.Web.UI.WebControls.FileUpload uploadJSON;
         
         /// <summary>
-        /// btnUploadJson control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUploadJson;
-        
-        /// <summary>
         /// btnAddGame control.
         /// </summary>
         /// <remarks>
@@ -56,5 +47,14 @@ namespace AIFinal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAddGame;
+        
+        /// <summary>
+        /// test control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl test;
     }
 }

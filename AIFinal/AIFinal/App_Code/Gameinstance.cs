@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AIFinal.App_Code;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,7 @@ public class Gameinstance
 {
     public string gameID;
     public string recording;
-    public Metadata metaData;
+    public GameEvents metaData;
 
     public Gameinstance()
     {

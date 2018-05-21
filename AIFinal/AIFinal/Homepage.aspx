@@ -13,31 +13,31 @@
           <div class="card-body">
               <div class="form-group">
                 <label for="GameIDInput">GameID</label>
-                <input class="form-control" id="GameIDInput" type="text" aria-describedby="upload audio" placeholder="Enter dota 2 gameID">
+                <input class="form-control" id="GameIDInput" type="text" aria-describedby="upload audio" runat="server" placeholder="Enter dota 2 gameID">
               </div>
             
               <div class="form-group">
-                <label for="UploadAudioFile">Audio file</label><br />
+                <label for="UploadAudioFile">WMA audio file</label><br />
                <!-- <input class="form-control" id="AudioFile" type="" aria-describedby="upload audio" placeholder="Upload audio file"> -->
                 <div class="row">
-                    <div class="col-6">
-                        <asp:FileUpload Class="form-control" ID="UploadAudioFile" runat="server" />
+                    <div class="col-12">
+                        <asp:FileUpload Class="form-control" ID="uploadAudioFile" runat="server" />
                     </div>
-                    <div class="col-6">
+                    <%--<div class="col-6">
                         <asp:Button ID="btnuploadRecording" Class="btn btn-primary btn-block" runat="server" Text="Add audio recording" />
-                    </div>
+                    </div>--%>
                 </div>
               </div>
             <div class="form-group">
                 <label for="uploadJSON">Add Json</label><br />
                <!-- <input class="form-control" id="AudioFile" type="" aria-describedby="upload audio" placeholder="Upload audio file"> -->
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-12">
                         <asp:FileUpload Class="form-control" ID="uploadJSON" runat="server" />
                     </div>
-                    <div class="col-6">
+                    <%--<div class="col-6">
                         <asp:Button ID="btnUploadJson" Class="btn btn-primary btn-block" runat="server" Text="Add Json" />
-                    </div>
+                    </div>--%>
                 </div>
               </div>
                 <div class="form-group">
@@ -52,7 +52,8 @@
                     </div>
                 </div>
               </div>
-              <asp:Button ID="btnAddGame" Class="btn btn-success btn-block" runat="server" Text="Add new game" />
+              <asp:Button ID="btnAddGame" Class="btn btn-success btn-block" runat="server" OnClick="btnAddGame_Click" Text="Add new game" />
+           <label id="test" runat="server"></label>
             </div>
           </div>
         </div>
