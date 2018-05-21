@@ -8,27 +8,71 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using AIFinal.App_Code;
 using System.Net;
+using System.IO;
+using NAudio.Wave;
 
 namespace AIFinal
 {
     public partial class WebForm1 : System.Web.UI.Page
     {
+        // ________________________________ Not my Code ________________________________ //
+
+        public static void TrimWavFile(string inPath, string outPath, TimeSpan cutFromStart, TimeSpan cutFromEnd)
+        {
+            using (WaveFileReader reader = new WaveFileReader(inPath))
+            {
+                using (WaveFileWriter writer = new WaveFileWriter(outPath, reader.WaveFormat))
+                {
+                    int bytesPerMillisecond = reader.WaveFormat.AverageBytesPerSecond / 1000;
+
+                    int startPos = (int)cutFromStart.TotalMilliseconds * bytesPerMillisecond;
+                    startPos = startPos - startPos % reader.WaveFormat.BlockAlign;
+
+                    int endBytes = (int)cutFromEnd.TotalMilliseconds * bytesPerMillisecond;
+                    endBytes = endBytes - endBytes % reader.WaveFormat.BlockAlign;
+                    int endPos = (int)reader.Length - endBytes;
+
+                    TrimWavFile(reader, writer, startPos, endPos);
+                }
+            }
+        }
+
+        private static void TrimWavFile(WaveFileReader reader, WaveFileWriter writer, int startPos, int endPos)
+        {
+            reader.Position = startPos;
+            byte[] buffer = new byte[1024];
+            while (reader.Position < endPos)
+            {
+                int bytesRequired = (int)(endPos - reader.Position);
+                if (bytesRequired > 0)
+                {
+                    int bytesToRead = Math.Min(bytesRequired, buffer.Length);
+                    int bytesRead = reader.Read(buffer, 0, bytesToRead);
+                    if (bytesRead > 0)
+                    {
+                        writer.WriteData(buffer, 0, bytesRead);
+                    }
+                }
+            }
+        }
+
+        // ________________________________ Not my Code ________________________________ //
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            test.InnerHtml += "<font color=\"red\">";
         }
 
         protected void btnAddGame_Click(object sender, EventArgs e)
         {
-            bool audio = false;
-            bool Json = false;
-            bool ID = false;
+            bool baudio = false;
+            bool bJson = false;
+            bool bIDgame = false;
             int playerID = 101680545;
-
+            string strJson = "";
             bool gameIDTrue = false;
             bool playerIdTrue = false;
-
+            test.InnerText = "";
             if (GameIDInput.Value != "")
             {
                 try
@@ -36,6 +80,7 @@ namespace AIFinal
                     string gameID = GameIDInput.Value;
                     gameIDTrue = true;
                     var json = new WebClient().DownloadString("https://api.opendota.com/api/matches/" + gameID);
+                    strJson = json.ToString();
                     test.InnerText = json.ToString();
                     var JsoncClass = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
                     GameEvents gi = new GameEvents();
@@ -97,12 +142,12 @@ namespace AIFinal
                 }catch(WebException ex)
                 {
                     if (gameIDTrue == false)
-                    test.InnerHtml = "<font color= \"red\">" + "ERROR. invalid game ID" + "</font>";
+                    test.InnerHtml += "ERROR. invalid game ID";
                     else
                     {
                         if (playerIdTrue== false)
                         {
-                            test.InnerHtml = "<font color= \"red\">" + "ERROR. invalid player ID" + "</font>";
+                            test.InnerHtml += "ERROR. invalid player ID" ;
                         }
                     }
                 }
@@ -114,44 +159,29 @@ namespace AIFinal
                 {
                     string[] token = uploadAudioFile.FileName.Split('.');
                     string Extension = token[token.Length - 1];
-                    if (Extension == "mp3")
+                    if (Extension == "wma")
                     {
-                        audio = true;
+                        baudio = true;
                         // perform processing for MP3
 
+                        //save batch mp3 subfiles
                     }
                 }
+                else
+                {
+                    test.InnerText += "No audiio file";
+                }
             }
-
-            //if (uploadAudioFile.HasFile)
-            //{
-            //    string[] token = uploadAudioFile.FileName.Split('.');
-            //    string Extension = token[token.Length - 1];
-            //    if (Extension == "wma")
-            //    {
-            //        audio = true;
-            //    }
-            //}
-
-            //test.InnerText = "";
-            //if (audio)
-            //{
-            //    test.InnerText = "No audiio file";
-            //}
-
-            //if (Json)
-            //{
-            //    test.InnerText = "No Json file";
-            //}
-
-            //if (ID)
-            //{
-            //    test.InnerText = "No Json file";
-            //}
-
-            if (audio && Json && ID)
+            test.InnerText += "</font>";
+            if (baudio && bJson && bIDgame)
             {
-                uploadAudioFile.SaveAs(Server.MapPath("~") + "audioFiles\\" + ID);
+                // write Json
+                string gameIDWrite = GameIDInput.Value;
+                string JsonPath = HttpContext.Current.Server.MapPath("/JsonData");
+                File.WriteAllText(JsonPath + '\\' + gameIDWrite + ".json", strJson);
+                //write audio parts
+                uploadAudioFile.SaveAs(Server.MapPath("~") + "audioFiles\\" + bIDgame);
+                test.InnerHtml = "<font color=\"greed\"> Agent Fired UP </font>";
                 // write joson as file
                 //start doing operations for program
 

@@ -10,13 +10,11 @@ using System.Web;
 public class Gameinstance
 {
     public string gameID;
-    public string recording;
+    public string RecordingFilePath;
     public GameEvents metaData;
 
-    public Gameinstance()
+    public Gameinstance(string GameId, string RecordingFilePath, GameEvents jsonGameData)
     {
-        //
-        // TODO: Add constructor logic here
-        //
+        
     }
 }
