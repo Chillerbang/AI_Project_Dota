@@ -221,10 +221,15 @@ namespace AIFinal
                                 int countEmotionWrite = 0;
                                 foreach (Emotion wrtieEmotionFile in eMotionsDetected)
                                 {
-                                    EmotionLine[countEmotionWrite] = eMotionsDetected[countEmotionWrite].Mp3ParentName + ";" + eMotionsDetected[countEmotionWrite].emotionDetected + ";" + eMotionsDetected[countEmotionWrite].delta + ";" + eMotionsDetected[countEmotionWrite].ArrayWords + ";";
+                                    string AllwordSaid = "";
+                                    foreach (string word in eMotionsDetected[countEmotionIndex].ArrayWords)
+                                    {
+                                        AllwordSaid += word + "*";
+                                    }
+                                    EmotionLine[countEmotionWrite] = eMotionsDetected[countEmotionWrite].Mp3ParentName + ";" + eMotionsDetected[countEmotionWrite].emotionDetected + ";" + eMotionsDetected[countEmotionWrite].intensity + ";" + AllwordSaid + ";";
                                     countEmotionWrite++;
                                 }
-                                System.IO.File.WriteAllLines(Server.MapPath("~") + "ProcessedGames/" + gameID, EmotionLine);
+                                File.WriteAllLines(Server.MapPath("~") + "ProcessedGames/" + gameID + ".emote", EmotionLine);
                             }
                         else
                         {
