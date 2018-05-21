@@ -74,7 +74,7 @@ namespace AIFinal
             bool bJson = false;
             bool bIDgame = false;
             bool bplayerID = false;
-            int playerID = 96166915;
+            int playerID = 203422649;
             string strJson = "";
             bool gameIDTrue = false;
             bool playerIdTrue = false;
@@ -135,6 +135,8 @@ namespace AIFinal
                             oPTemp.total_gold = p.total_gold;
                             oPTemp.total_xp = p.total_xp;
                             oPTemp.lane_efficiency = p.lane_efficiency;
+                            oPTemp.radiant_win = p.radiant_win;
+                            oPTemp.isRadiant = p.isRadiant;
                             oPTemp.personaname = p.personaname;
                             // per minute data
 
@@ -225,7 +227,7 @@ namespace AIFinal
                                     eMotionsDetected[countEmotionIndex].Mp3ParentName = f.Name;
                                     eMotionsDetected[countEmotionIndex].emotionDetected = "EDetctedPlace";
                                     eMotionsDetected[countEmotionIndex].intensity = -99;
-                                    eMotionsDetected[countEmotionIndex].delta = -99;
+                                    //eMotionsDetected[countEmotionIndex].delta = -99;
                                     eMotionsDetected[countEmotionIndex].ArrayWords = null;
                                     countEmotionIndex++;
                                 }

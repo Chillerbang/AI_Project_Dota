@@ -8,8 +8,10 @@ using System.Web;
 /// </summary>
 namespace AIFinal.App_Code
 {
+
+
     public class metaDataGen
     {
-
+        public double delta { get; set; }
     }
 }

@@ -9,8 +9,6 @@ namespace AIFinal.App_Code
 
     public class GoalAgent
     {
-
-
         //stocastic hill climb search
 
         // heuristic function

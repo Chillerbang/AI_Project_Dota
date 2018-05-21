@@ -11,7 +11,6 @@ public class Emotion
     public string Mp3ParentName;
     public string emotionDetected { get; set; }
     public double intensity { get; set; }
-    public double delta { get; set; }
     public string[] ArrayWords;
 
     public Emotion()

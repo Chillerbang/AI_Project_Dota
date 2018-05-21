@@ -51,6 +51,8 @@ namespace AIFinal.App_Code
             public int hero_id { get; set; }
             public int kills { get; set; }
             public float lane_efficiency { get; set; }
+            public bool radiant_win { get; set; }
+            public bool isRadiant { get; set; }
             public int last_hits { get; set; }
             public int[] lh_t { get; set; }
             public int duration { get; set; }
