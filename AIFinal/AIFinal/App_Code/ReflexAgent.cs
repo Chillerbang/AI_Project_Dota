@@ -7,7 +7,7 @@ namespace AIFinal.App_Code
 {
     public class ReflexAgent
     {
-        public ReflexAgent(string gameID, GameEvents ge, string emoteLocation)
+        public ReflexAgent(string gameID, GameEvents ge, string emoteLocation, string FileOutPath)
         {
             Emotion[] emotionArray;
             // create reflex agent
@@ -101,7 +101,10 @@ namespace AIFinal.App_Code
                     else
                     {
                         emotionArray[countArryIndexEmote].ArrayWords = words[2].Split('*');
-                        emotionArray[countArryIndexEmote].intensity = double.Parse(words[2]);
+                        double temp = 0;
+                        string Intense = words[2].Replace('.', ',');
+                        if (double.TryParse(Intense, out temp))
+                        emotionArray[countArryIndexEmote].intensity = temp;
                         emotionArray[countArryIndexEmote].emotionDetected = words[1];
                         emotionArray[countArryIndexEmote].Mp3ParentName = words[0];
                     }
@@ -114,9 +117,28 @@ namespace AIFinal.App_Code
             }
 
             //Condtion Rules
-            double weightedGame = weightPerSumOver(winner, ge.p.kda, totalkillsFriendly, ge.p.total_gold, ge.p.gold_per_min, ge.p.last_hits,ge.md.duration,ge.p.hero_damage,ge.p.lane_efficiency,ge.p.gold, dpmkpm, ge.p.deaths, stomp);
+            double weightedGame = weightPerSumOver(winner, 
+                ge.p.kda, 
+                totalkillsFriendly, 
+                ge.p.total_gold, 
+                ge.p.gold_per_min, 
+                ge.p.last_hits,
+                ge.md.duration,
+                ge.p.hero_damage,
+                ge.p.lane_efficiency,
+                ge.p.gold, 
+                dpmkpm, 
+                ge.p.deaths, 
+                stomp);
+
             double weightedEmote = Positivity(ge.o ,ge.p.lh_t, ge.p.gold_t, ge.p.dn_t, emotionArray);
             // actuator (MetadataGeneration)
+            string[] weights = {
+                gameID,
+                weightedGame.ToString("0.000000"),
+                weightedEmote.ToString("0.000000")
+            };
+            System.IO.File.WriteAllLines(FileOutPath + gameID + ".meta", weights);
         }
 
 
@@ -226,9 +248,9 @@ namespace AIFinal.App_Code
                     countght++;
                 }
                 //ratio them
-                double ratio1 = weight1 / lht[lht.Length];
-                double ratio2 = weight2 / dnt[dnt.Length];
-                double ratio3 = weight3 / ght[ght.Length];
+                double ratio1 = weight1 / lht[lht.Length-1];
+                double ratio2 = weight2 / dnt[dnt.Length-1];
+                double ratio3 = weight3 / ght[ght.Length-1];
                 // give emotionBias
                 double addRatios = (ratio1 + ratio2 + ratio3) / 3;
                 double emoteRatio = addRatios;
@@ -245,7 +267,7 @@ namespace AIFinal.App_Code
                     }
                 }
 
-                weightedWithEmotions = emoteRatio;
+                weightedWithEmotions += emoteRatio;
                 countEmote++;
             }
 

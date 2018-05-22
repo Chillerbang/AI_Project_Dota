@@ -8,10 +8,11 @@ using System.Web;
 /// </summary>
 namespace AIFinal.App_Code
 {
-
-
     public class metaDataGen
     {
-        public double delta { get; set; }
+        public double weightedGame;
+        public double weightedEmote;
+
+        
     }
 }
