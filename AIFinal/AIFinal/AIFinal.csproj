@@ -73,11 +73,26 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="JsonData\3890519366.json" />
+    <Content Include="JsonData\3867918750.json" />
+    <Content Include="JsonData\3890595973.json" />
     <None Include="packages.config" />
     <Content Include="css\animatedWait.css" />
     <Content Include="js\dataTables.bootstrap4.js" />
     <Content Include="js\jquery.min.js" />
     <Content Include="Site1.Master" />
+    <Content Include="ProcessedGames\Backup\3867918750.emote" />
+    <Content Include="ProcessedGames\Backup\3867918750.meta" />
+    <Content Include="ProcessedGames\Backup\3890519366.emote" />
+    <Content Include="ProcessedGames\Backup\3890519366.meta" />
+    <Content Include="ProcessedGames\Backup\3890595973.emote" />
+    <Content Include="ProcessedGames\Backup\3890595973.meta" />
+    <Content Include="ProcessedGames\3867918750.emote" />
+    <Content Include="ProcessedGames\3867918750.meta" />
+    <Content Include="ProcessedGames\3890519366.emote" />
+    <Content Include="ProcessedGames\3890519366.meta" />
+    <Content Include="ProcessedGames\3890595973.emote" />
+    <Content Include="ProcessedGames\3890595973.meta" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -106,7 +121,6 @@
     <Compile Include="App_Code\Emotion.cs" />
     <Compile Include="App_Code\Gameinstance.cs" />
     <Compile Include="App_Code\gameLog.cs" />
-    <Compile Include="App_Code\DataGenerator.cs" />
     <Compile Include="App_Code\GameEvents.cs" />
     <Compile Include="App_Code\list.cs" />
     <Compile Include="App_Code\metaDataGen.cs" />
@@ -139,8 +153,6 @@
   <ItemGroup>
     <Folder Include="audioFiles\Clips\" />
     <Folder Include="audioFiles\FullFile\" />
-    <Folder Include="JsonData\" />
-    <Folder Include="ProcessedGames\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

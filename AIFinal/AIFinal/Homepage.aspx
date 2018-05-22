@@ -24,6 +24,11 @@
        <div  class="col-8">
           <div class="card-header">Add a new Game and recording</div>
           <div class="card-body">
+            <div class="form-group">
+                <label for="UserAccountInput">Use account ID</label>
+                <input class="form-control" id="UserAccountInput" type="text" aria-describedby="Account number" runat="server" placeholder="Enter Account ID">
+              </div>
+
               <div class="form-group">
                 <label for="GameIDInput">GameID</label>
                 <input class="form-control" id="GameIDInput" type="text" aria-describedby="upload audio" runat="server" placeholder="Enter dota 2 gameID">

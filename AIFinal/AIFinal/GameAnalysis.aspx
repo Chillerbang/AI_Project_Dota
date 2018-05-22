@@ -24,13 +24,13 @@
         </div>
         <br/>
 
-        <h3> Words and thier emotion </h3>
+        <h3> Words and their emotion </h3>
         <div class="row table-dark">
         <asp:Table ID="tblEmotionWord" Class="col-12" runat="server"></asp:Table>
         </div>
         <br/>
 
-        <h3> Most effective words </h3>
+        <h3> Most effective emotion for playing game</h3>
         <div class="row table-dark">
         <asp:Table ID="tblPredictedWords" Class="col-12" runat="server"></asp:Table>
         </div>

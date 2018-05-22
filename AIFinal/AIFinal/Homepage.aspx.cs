@@ -86,6 +86,10 @@ namespace AIFinal
                     string gameID = GameIDInput.Value;
                     gameIDTrue = true;
                     var json = new WebClient().DownloadString("https://api.opendota.com/api/matches/" + gameID);
+                    playerID = 0;
+                    int tempintAccount;
+                    if (Int32.TryParse(UserAccountInput.Value, out tempintAccount));
+                    playerID = tempintAccount;
                     strJson = json.ToString();
                     var JsoncClass = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
                     GameEvents gi = new GameEvents();
@@ -204,7 +208,11 @@ namespace AIFinal
                                     {
                                         CutBeginXlip = TimeSpan.FromSeconds((double)objMusic.time - 5);
                                         CutEndClip = lenghtAudioTr - (CutBeginXlip + TimeSpan.FromSeconds(5));
-
+                                        //if (counter == gi.o.Count)
+                                        //{
+                                        //    CutBeginXlip = CutBeginXlip - TimeSpan.FromSeconds(5);
+                                        //    CutEndClip = CutEndClip - TimeSpan.FromSeconds(5);
+                                        //}
                                         //save batch mp3 subfiles
                                         TrimWavFile(Server.MapPath("~") + "audioFiles/FullFile/TR" + gameID + ".wav", Server.MapPath("~") + "audioFiles/Clips/" + gameID + "-" + counter + ".wav", CutBeginXlip, CutEndClip);
                                         counter++;

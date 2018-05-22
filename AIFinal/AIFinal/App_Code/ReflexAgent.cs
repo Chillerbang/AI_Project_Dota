@@ -104,6 +104,7 @@ namespace AIFinal.App_Code
                         double temp = 0;
                         string Intense = words[2].Replace('.', ',');
                         if (double.TryParse(Intense, out temp))
+
                         emotionArray[countArryIndexEmote].intensity = temp;
                         emotionArray[countArryIndexEmote].emotionDetected = words[1];
                         emotionArray[countArryIndexEmote].Mp3ParentName = words[0];
