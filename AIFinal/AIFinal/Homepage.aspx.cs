@@ -250,7 +250,7 @@ namespace AIFinal
                                 test.InnerHtml += "<font color=\"green\"> Data Recorded successfully";
                                 lblRedirect.InnerHtml = "<a href =\"GameAnalysis.aspx\">See Results<a>";
                                 //File.WriteAllLines(Server.MapPath("~") + "ProcessedGames/" + gameID + ".emote", EmotionLine);
-                                ReflexAgent reflex = new ReflexAgent(gameID, eMotionsDetected, gi, Server.MapPath("~") + "ProcessedGames/" + gameID + ".emote");
+                                ReflexAgent reflex = new ReflexAgent(gameID, gi, Server.MapPath("~") + "ProcessedGames/" + gameID + ".emote");
                             }
                             else
                             {

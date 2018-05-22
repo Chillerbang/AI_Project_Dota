@@ -7,8 +7,9 @@ namespace AIFinal.App_Code
 {
     public class ReflexAgent
     {
-        public ReflexAgent(string gameID, Emotion[] emotionArray, GameEvents ge, string emoteLocation)
+        public ReflexAgent(string gameID, GameEvents ge, string emoteLocation)
         {
+            Emotion[] emotionArray;
             // create reflex agent
             //Percepts
             bool winner = (ge.p.isRadiant == ge.p.radiant_win);
@@ -81,11 +82,40 @@ namespace AIFinal.App_Code
             }
 
             // read emotion from disk
-
+            string[] emote = System.IO.File.ReadAllLines(emoteLocation);
+            emotionArray = new Emotion[emote.Length];
+            int countArryIndexEmote = 0;
+            foreach (string e in emote)
+            {
+                emotionArray[countArryIndexEmote] = new Emotion();
+                string[] words = e.Split(';');
+                try
+                {
+                    if (words[1] == "none")
+                    {
+                        emotionArray[countArryIndexEmote].ArrayWords = null;
+                        emotionArray[countArryIndexEmote].intensity = 0;
+                        emotionArray[countArryIndexEmote].emotionDetected = "none";
+                        emotionArray[countArryIndexEmote].Mp3ParentName = words[0];
+                    }
+                    else
+                    {
+                        emotionArray[countArryIndexEmote].ArrayWords = words[2].Split('*');
+                        emotionArray[countArryIndexEmote].intensity = double.Parse(words[2]);
+                        emotionArray[countArryIndexEmote].emotionDetected = words[1];
+                        emotionArray[countArryIndexEmote].Mp3ParentName = words[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                countArryIndexEmote++;
+            }
 
             //Condtion Rules
             double weightedGame = weightPerSumOver(winner, ge.p.kda, totalkillsFriendly, ge.p.total_gold, ge.p.gold_per_min, ge.p.last_hits,ge.md.duration,ge.p.hero_damage,ge.p.lane_efficiency,ge.p.gold, dpmkpm, ge.p.deaths, stomp);
-
+            double weightedEmote = Positivity(ge.o ,ge.p.lh_t, ge.p.gold_t, ge.p.dn_t, emotionArray);
             // actuator (MetadataGeneration)
         }
 
@@ -149,9 +179,10 @@ namespace AIFinal.App_Code
         * with dh
         */
 
-        public double Positivity(GameEvents.objectives[] objectives, double[] lht, double[] ght, double[] dnt, Emotion emotionArray)
+        public double Positivity(List<GameEvents.objectives> objectives, int[] lht, int[] ght, int[] dnt, Emotion[] emotionArray)
         {
             double weightedWithEmotions = 0;
+            int countEmote = 0;
             foreach (GameEvents.objectives o in objectives)
             {
                 int time = o.time;
@@ -195,12 +226,30 @@ namespace AIFinal.App_Code
                     countght++;
                 }
                 //ratio them
-
+                double ratio1 = weight1 / lht[lht.Length];
+                double ratio2 = weight2 / dnt[dnt.Length];
+                double ratio3 = weight3 / ght[ght.Length];
                 // give emotionBias
+                double addRatios = (ratio1 + ratio2 + ratio3) / 3;
+                double emoteRatio = addRatios;
 
+                if (emotionArray[countEmote].intensity > 0)
+                {
+                    emoteRatio = emoteRatio* emotionArray[countEmote].intensity;
+                }
+                else
+                {
+                    if (emotionArray[countEmote].intensity == 0)
+                    {
+                        emoteRatio = 0;
+                    }
+                }
+
+                weightedWithEmotions = emoteRatio;
+                countEmote++;
             }
 
-            return weightedWithEmotions;
+            return weightedWithEmotions - 3;
         }
 
 
